@@ -1,0 +1,8 @@
+{
+    "REMOVE_IDS": true,
+    "DOWNLOAD_PATH": "C:\\Users\\YourUsername\\Downloads",
+    "TARGET_PATH": "C:\\path\\to\\your\\backup\\folder",
+    "DEBUG_PATH": "C:\\path\\to\\your\\logs\\folder",
+    "EMAIL":"your_notion_email",
+    "PASSWORD":"your_password"
+}
