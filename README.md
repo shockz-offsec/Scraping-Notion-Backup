@@ -47,7 +47,11 @@ The script's configuration is defined in the config.json file, which has the fol
 
 ## How it works
 
-The entire backup process is carried out in the background, without requiring any user input. A log file is generated with a record of the actions taken by the script, in the format debug-dd-mm-yyyy.log. Additionally, the output of the script is a zip file named notion_export-dd-mm-yyyy.zip.
+The backup process is entirely carried out in the background using web scraping, without requiring any user input. 
+
+The export is downloaded and processed according to the user's choice in the configuration file, which can remove AWS identifiers from markdown files, folders, and internal file references. Old backups are then deleted, leaving only the current and most recent backup. 
+
+The processed export is compressed into a zip file with the format notion_export-dd-mm-yyyy.zip. Additionally, the script generates a log file of all the actions performed during the process, using the format debug-dd-mm-yyyy.log.
 
 The script uses the Firefox webdriver (geckodriver), which is automatically installed during the setup process.
 
