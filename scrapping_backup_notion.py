@@ -165,7 +165,7 @@ def removing_identifiers(today_path : str, today_file : str):
     
     for base, dirs, files in os.walk(today_path):
         for file in files:
-            if file.endswith('.md'):
+            if file.endswith('.md') or file.endswith('.csv'):
                 files_pattern = file.split(" ")[-1].split(".")[0]
                 ids_files.append(files_pattern)
             
@@ -185,7 +185,7 @@ def removing_identifiers(today_path : str, today_file : str):
     temp_file = os.walk(today_path, topdown=False)
     for root, dirs, files in temp_file:
         for file in files:
-            if file.endswith('.md'):
+            if file.endswith('.md') or file.endswith('.csv'):
                 file_path = os.path.join(root,file)
                 new_path = file_path.replace(" "+file_path.split(" ")[-1].split(".")[0],"")
                 
