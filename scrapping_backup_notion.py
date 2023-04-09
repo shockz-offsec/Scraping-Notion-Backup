@@ -84,8 +84,8 @@ def generate_export():
             time.sleep(1)
     except Exception as e:
         logging.exception(f"Error while waiting for download: {e}")
-
-    time.sleep(10)
+    finally:
+        time.sleep(10)
 
     # Close the browser
     driver.quit()
