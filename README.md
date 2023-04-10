@@ -4,6 +4,8 @@ Moreover, the script processes the data to remove any AWS identifiers that may b
 
 Can run on both Windows and Linux
 
+> !! At no time is the information (credentials, tokens) used in the script recompiled.!!
+
 ## Requirements & Instalation
 
 To use this tool, you need to have the Selenium module installed. You can install it by running the following command in your terminal:
