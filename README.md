@@ -4,7 +4,7 @@ Moreover, the script processes the data to remove any AWS identifiers that may b
 
 Can run on both Windows and Linux
 
-> !! At no time is the information (credentials, tokens) used in the script recompiled.!!
+> !! At no time is the information (credentials, tokens) used in the script are recompiled.!!
 
 ## Requirements & Installation
 
