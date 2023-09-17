@@ -7,6 +7,7 @@ import logging
 import zipfile
 from datetime import datetime
 import tarfile
+import random
 import urllib.request
 from zipfile import ZipFile
 from selenium import webdriver
@@ -27,14 +28,14 @@ def login_to_notion(email, password):
         # Email
         email_input = driver.find_element(By.XPATH, '//*[@placeholder="Enter your email address..."]')
         email_input.send_keys(email)
-        time.sleep(1)
+        time.sleep(round(random.uniform(0, 2), 1))
         driver.find_element(By.XPATH, '//div[text()="Continue with email"]').click()
-        time.sleep(1)
+        time.sleep(1.5)
 
         # Password
         password_input = driver.find_element(By.XPATH, '//*[@placeholder="Enter your password..."]')
         password_input.send_keys(password)
-        time.sleep(1)
+        time.sleep(round(random.uniform(0, 2), 1))
         driver.find_element(By.XPATH, '//div[text()="Continue with password"]').click()
 
         # Wait for the page to load completely after logging in.
@@ -73,41 +74,26 @@ def generate_export():
     logging.info("Downloading...")
 
     try:
-        while True:
-            # Find the ZIP file with .zip extension and without the temporary prefix
-            filename = [filename for filename in os.listdir(download_path) if filename.endswith(".zip") and not filename.endswith(".crdownload")]
-            
-            if filename: # If you find a ZIP file
-                filepath = os.path.join(download_path, filename[0]) # Gets the full path to the file
-                size = os.path.getsize(filepath) # Gets the file size
-                time.sleep(1)
-                
-                # Checks if the file size has stabilized in the last 30 seconds
-                for _ in range(60):
-                    if os.path.getsize(filepath) != size: # If the size has changed
-                        size = os.path.getsize(filepath) # Update file size
-                        time.sleep(1) 
-                    else: # If the size has not changed
-                        break # Exits the for loop
-                else: # If the time limit is reached
-                    logging.error("The ZIP file download could not be completed in the expected time.")
-                break # Exits the for loop
-            else: # If no ZIP file is found
-                time.sleep(1)
+        # Esperar a que el archivo se descargue completamente
+        wait = WebDriverWait(driver, 60) # 1m de espera
+        zip_file_locator = (By.XPATH, f"//a[contains(@href, '.zip') and not(contains(@href, '.crdownload'))]")
+        zip_file_element = wait.until(EC.presence_of_element_located(zip_file_locator))
+        
+        # Esperar a que el enlace sea visible
+        wait.until(EC.visibility_of(zip_file_element))
+        
+        filename = zip_file_element.get_attribute("href").split("/")[-1]
+        filepath = os.path.join(download_path, filename)
 
-    except Exception as e:
-        logging.exception(f"Error while waiting for download: {e}")
+        logging.info("ZIP file download completed.")
+    except:
+        logging.warning(f"Omitted: Error timeout")
     finally:
         time.sleep(15)
-
-    # Close the browser
-    try:
         driver.execute_script("window.open('','_self').close();")
         driver.quit()
-    except:
-        pass
-    
-    # Get the path of the most recently downloaded file
+
+    #Get the path of the most recently downloaded file
     filename_path = max([os.path.join(download_path, f) for f in os.listdir(download_path)], key=os.path.getctime)
     logging.info(f"Export downloaded: {os.path.basename(filename_path)}")
 
@@ -255,12 +241,13 @@ if __name__ == "__main__":
     ## Global variables ##
     TARGET_PATH = data["TARGET_PATH"]
     today = datetime.today().strftime('%d-%m-%Y')
+    log_dat = datetime.today().strftime('%Y-%m-%d')
 
     # Basic configuration of the registry
     if not os.path.exists(data["DEBUG_PATH"]):
         os.makedirs(data["DEBUG_PATH"], mode=0o777)
 
-    logging.basicConfig(filename=os.path.join(data["DEBUG_PATH"], f'debug-{today}.log'),
+    logging.basicConfig(filename=os.path.join(data["DEBUG_PATH"], f'debug-{log_dat}.log'),
                         level=logging.INFO,
                         format='%(asctime)s %(levelname)s %(message)s')
 
