@@ -29,7 +29,7 @@ def login_to_notion(email, password):
         email_input = driver.find_element(By.XPATH, '//*[@placeholder="Enter your email address..."]')
         email_input.send_keys(email)
         time.sleep(round(random.uniform(0, 2), 1))
-        driver.find_element(By.XPATH, '//div[text()="Continue with email"]').click()
+        driver.find_element(By.XPATH, '//div[text()="Continue"]').click()
         time.sleep(1.5)
 
         # Password
