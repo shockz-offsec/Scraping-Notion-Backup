@@ -1,4 +1,4 @@
-# Scraping-Notion-Backup
+# Scraping-Notion-Backup (No Longer Maintained)
 This script automates the backup process of Notion data into Markdown and CSV formats, without the need for tokens or the use of private Notion APIs. 
 Moreover, the script processes the data to remove any AWS identifiers that may be present in the markdown files, folders, and internal references to other files in the backup.
 
